@@ -1,1 +1,48 @@
-# Starter Python file
+
+import streamlit as st
+st.set_page_config(page_title="QuLab", layout="wide")
+st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
+st.sidebar.divider()
+st.title("QuLab")
+st.divider()
+st.markdown("""
+In this lab, we explore a Risk Appetite Framework Explorer. The application simulates elements of an operational risk appetite framework. Its primary purpose is to allow users to define various risk tolerance levels and immediately observe their implications on a simulated organization's risk profile and capital management. This interactive tool will provide a dynamic way to understand abstract risk concepts.
+
+Key Objectives:
+*   Enable users to understand the core insights within operational risk management.
+*   Educate users on the components of an operational risk appetite framework.
+*   Facilitate exploration of the relationship between risk appetite, risk capacity, and actual risk outcomes through simulation.
+*   Demonstrate the practical application of Key Risk Indicators (KRIs) in monitoring risk against appetite thresholds.
+*   Emphasize the critical importance of aligning risk appetite with business strategy and capital allocation.
+
+Core Features:
+*   Synthetic Data Generation: Generate simulated time-series data for business operations (revenue, expenses, profit), operational loss events, and Key Risk Indicators (KRIs).
+*   Risk Profile Visualization: Display the simulated 'Risk Capacity' and the evolving 'Risk Profile' of the organization over time, benchmarked against defined risk appetite thresholds.
+*   Breach Monitoring: Track and visualize instances where the simulated risk profile exceeds the defined risk appetite, presenting these as trend plots.
+*   KRI Dashboard: Present a dynamic dashboard of simulated KRIs, highlighting their status relative to pre-set thresholds and indicating potential challenges to the defined risk appetite.
+
+$\text{Expected Loss (EL) = PD_A * L}$
+
+$\text{Unexpected Loss (UL) = 3 * sigma}$
+
+$\text{UL = 3 * PD_A * (1 - PD_A) * L}$
+
+$\text{S_{net} = sum_{i=1}^{N}X_i - sum_{i=1}^{N}L_{d,c}(X_i)}$
+
+where $X_i$ is a random draw of $X$ (loss event), and $L_{d,c}$ is the operator for payout:
+
+$\text{L_{d,c}(X_i) = min(max(X_i - d, 0), c)}$
+
+Here, $d$ is the deductible and $c$ is the cover per loss event.
+""")
+
+page = st.sidebar.selectbox(label="Navigation", options=["Data Generation", "Risk Appetite Definition", "Risk Monitoring"])
+if page == "Data Generation":
+    from application_pages.page1 import run_page1
+    run_page1()
+elif page == "Risk Appetite Definition":
+    from application_pages.page2 import run_page2
+    run_page2()
+elif page == "Risk Monitoring":
+    from application_pages.page3 import run_page3
+    run_page3()
