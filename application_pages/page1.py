@@ -7,7 +7,18 @@ from datetime import datetime
 
 def run_page1():
     st.header("Data Generation and Visualization")
-    st.markdown("This page allows you to generate synthetic data for business operations, loss events, and key risk indicators (KRIs). You can adjust the parameters in the sidebar to see how they affect the generated data and visualizations.")
+    st.markdown("""
+    **Page Overview:**
+    - This page lets you simulate business operations, financial performance, and operational loss events.
+    - You can adjust parameters to see their impact on the generated data and visualizations.
+
+    **Graphs and Tables Explained:**
+    - **Simulated Business Operations Data:** Table showing time-series data for business volume, revenue, and KRI.
+    - **Simulated Loss Events Data:** Table of individual simulated operational loss events.
+    - **Business Volume and Revenue Trend:** Line chart visualizing how business volume and revenue change over time.
+    - **KRI Trend:** Line chart showing the Key Risk Indicator (KRI) over time.
+    - **Operational Loss Event Distribution:** Histogram showing the distribution of simulated loss amounts.
+    """)
 
     with st.sidebar:
         st.subheader("1. Data Generation Parameters")
@@ -78,6 +89,11 @@ def run_page1():
 
             return df_simulated_operations, df_loss_events
 
+        # Convert sim_start_date and sim_end_date to datetime if needed
+        if not isinstance(sim_start_date, datetime):
+            sim_start_date = datetime.combine(sim_start_date, datetime.min.time())
+        if not isinstance(sim_end_date, datetime):
+            sim_end_date = datetime.combine(sim_end_date, datetime.min.time())
         # Trigger data generation
         df_ops, df_losses = generate_synthetic_data(
             sim_start_date, sim_end_date,
@@ -86,6 +102,9 @@ def run_page1():
             {'mean': loss_sev_mean, 'std': loss_sev_std},
             {'baseline': kri_baseline, 'volatility': kri_volatility}
         )
+        # Store generated data in session_state for use in other pages
+        st.session_state['df_ops'] = df_ops
+        st.session_state['df_losses'] = df_losses
 
     st.subheader("Simulated Business Operations Data")
     st.write("This table shows the generated time-series data for business volume, revenue, and KRI.")
@@ -98,10 +117,10 @@ def run_page1():
     # Ensure df_ops 'Date' column is datetime for Altair
     df_ops['Date'] = pd.to_datetime(df_ops['Date'])
 
-    st.subheader("Operational Metrics Over Time")
-    st.write("Visualizing the trend of business volume, revenue, and the Key Risk Indicator.")
-
-    # Business Volume and Revenue Trend
+    st.subheader("Business Volume and Revenue Trend")
+    st.markdown("""
+    This chart shows how your business volume and revenue evolve over the selected time period. The growth rate and other business parameters in the sidebar directly affect these trends, helping you visualize the impact of different scenarios on your organization's performance.
+    """)
     chart_ops = alt.Chart(df_ops).transform_fold(
         ['BusinessVolume', 'Revenue'],
         as_=['Metric', 'Value']
@@ -114,7 +133,10 @@ def run_page1():
     ).interactive()
     st.altair_chart(chart_ops, use_container_width=True)
 
-    # KRI Trend
+    st.subheader("Key Risk Indicator (KRI) Trend")
+    st.markdown("""
+    The KRI chart tracks the simulated risk indicator for each time point. By adjusting the KRI baseline and volatility sliders, you can see how risk levels fluctuate and identify periods of increased risk exposure.
+    """)
     chart_kri = alt.Chart(df_ops).mark_line(color='#2ca02c').encode(
         x=alt.X('Date:T', title='Date'),
         y=alt.Y('KRI:Q', title='KRI Value')
@@ -124,9 +146,11 @@ def run_page1():
     st.altair_chart(chart_kri, use_container_width=True)
 
     st.subheader("Operational Loss Event Distribution")
-    st.write("Histogram showing the distribution of simulated loss amounts.")
+    st.markdown("""
+    This histogram displays the distribution of operational loss amounts generated in the simulation. The frequency and severity sliders in the sidebar control the shape and spread of the losses, allowing you to explore how different risk scenarios affect loss outcomes.
+    """)
     if not df_losses.empty:
-        chart_loss_hist = alt.Chart(df_losses).mark_bar(bin=True, color='#9467bd').encode(
+        chart_loss_hist = alt.Chart(df_losses).mark_bar(color='#9467bd').encode(
             x=alt.X('LossAmount:Q', bin=alt.Bin(maxbins=30), title='Loss Amount ($)'),
             y=alt.Y('count()', title='Number of Losses'),
             tooltip=['count()']

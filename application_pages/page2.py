@@ -5,7 +5,15 @@ import altair as alt
 
 def run_page2():
     st.header("Risk Profile and Monitoring")
-    st.markdown("This page allows you to define your risk appetite and monitor your risk profile against these defined thresholds. The risk profile is calculated based on the data generated on the previous page.")
+    st.markdown("""
+    Set risk appetite thresholds and monitor your organization's risk profile using the data generated on the previous page.
+
+    - Use the sliders to set limits for expected loss, unexpected loss, severe loss events, KRI, and risk capacity.
+    - The risk profile table summarizes risk metrics for each time period.
+    - The breach monitoring table highlights when risk metrics exceed your defined appetite.
+    - The KRI performance chart shows KRI values and whether they are within or above the set limit.
+    - References for further reading are provided at the bottom.
+    """)
 
     # Streamlit UI for risk appetite parameters (in sidebar)
     with st.sidebar:
@@ -186,3 +194,10 @@ def run_page2():
             st.altair_chart(kri_chart + kri_limit_rule, use_container_width=True)
     else:
         st.info("Please generate data on the 'Data Generation & Visualization' page first.")
+
+    # References section (moved from previous References page)
+    st.header("References")
+    st.markdown("""
+    [1] Chapter 3: The Risk Management Framework, Chapter 5: Risk Information, Operational Risk Manager Handbook, [Provided Document]. These sections discuss risk capacity, risk appetite, risk profile, and key risk indicators.
+    [2] dalmirPereira/module6_labWork: Lab Exercises from Module 6 - GitHub, https://github.com/dalmirPereira/module6_labWork.
+    """)
