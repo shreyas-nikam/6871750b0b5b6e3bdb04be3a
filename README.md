@@ -1,7 +1,3 @@
-Here's a comprehensive `README.md` file for your Streamlit application lab project, formatted for GitHub.
-
----
-
 # QuLab: Risk Appetite Framework Simulator
 
 ![QuLab Logo](https://www.quantuniversity.com/assets/img/logo5.jpg)
