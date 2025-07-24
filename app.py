@@ -6,7 +6,7 @@ import numpy as np
 st.set_page_config(page_title="QuLab: Risk Appetite Framework Explorer", layout="wide")
 st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
 st.sidebar.divider()
-st.title("QuLab: Risk Appetite Framework Explorer Lab")
+st.title("QuLab: Risk Appetite Framework Explorers")
 st.divider()
 
 page = st.sidebar.selectbox(label="Navigation", options=["Data Generation & Visualization", "Risk Profile & Monitoring"], key="main_nav")
