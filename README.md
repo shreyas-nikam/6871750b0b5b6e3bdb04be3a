@@ -137,10 +137,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions or feedback, please reach out via:
 
-*   **Email:** your.email@example.com
-*   **LinkedIn:** [Your LinkedIn Profile](https://www.linkedin.com/in/yourprofile)
+*   **Email:** info@qusandbox.com
 *   **GitHub Issues:** Open an issue on this repository.
 
----
-**QuantUniversity**
-_Empowering through Quantitative Finance Education_
